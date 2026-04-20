@@ -1,4 +1,4 @@
-﻿from rest_framework import generics, permissions
+from rest_framework import generics, permissions
 from core import models
 from core.models import Product, Category, Brand
 from . import serializers
