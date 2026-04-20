@@ -1,5 +1,6 @@
 ﻿from rest_framework import serializers
-from core.models import Brand, Category, Product
+import core
+from core.models import Product, Category, Brand
 
 class BrandSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,14 +20,12 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = ("id", "name", "price", "brand", "category")
 
-
 class CartItemSerializer(serializers.ModelSerializer):
     product = ProductSerializer(read_only=True)
 
     class Meta:
         model = core.models.CartItem
         fields = ("id", "product", "quantity")
-
 
 class CartSerializer(serializers.ModelSerializer):
     items = CartItemSerializer(many=True, read_only=True)
@@ -35,14 +34,12 @@ class CartSerializer(serializers.ModelSerializer):
         model = core.models.Cart
         fields = ("id", "customer", "session_id", "items")
 
-
 class OrderItemSerializer(serializers.ModelSerializer):
     product = ProductSerializer(read_only=True)
 
     class Meta:
         model = core.models.OrderItem
         fields = ("id", "product", "quantity", "price_at_purchase")
-
 
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True, read_only=True)
@@ -51,7 +48,6 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = core.models.Order
         fields = ("id", "customer", "status", "total", "items")
-
 
 class PaymentSerializer(serializers.ModelSerializer):
     order = serializers.StringRelatedField()
