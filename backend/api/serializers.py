@@ -1,5 +1,6 @@
 ﻿from rest_framework import serializers
-from core.models import Brand, Category, Product
+from core import models
+from core.models import Product, Category, Brand
 
 class BrandSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,43 +20,38 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = ("id", "name", "price", "brand", "category")
 
-
 class CartItemSerializer(serializers.ModelSerializer):
     product = ProductSerializer(read_only=True)
 
     class Meta:
-        model = core.models.CartItem
+        model = models.CartItem
         fields = ("id", "product", "quantity")
-
 
 class CartSerializer(serializers.ModelSerializer):
     items = CartItemSerializer(many=True, read_only=True)
 
     class Meta:
-        model = core.models.Cart
+        model = models.Cart
         fields = ("id", "customer", "session_id", "items")
-
 
 class OrderItemSerializer(serializers.ModelSerializer):
     product = ProductSerializer(read_only=True)
 
     class Meta:
-        model = core.models.OrderItem
+        model = models.OrderItem
         fields = ("id", "product", "quantity", "price_at_purchase")
-
 
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True, read_only=True)
     customer = serializers.StringRelatedField()
 
     class Meta:
-        model = core.models.Order
+        model = models.Order
         fields = ("id", "customer", "status", "total", "items")
-
 
 class PaymentSerializer(serializers.ModelSerializer):
     order = serializers.StringRelatedField()
 
     class Meta:
-        model = core.models.Payment
+        model = models.Payment
         fields = ("id", "order", "provider", "provider_id", "amount", "status")

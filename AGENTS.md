@@ -108,3 +108,15 @@ Continue progress using alternative editing strategy
 13. Final Rule
 Do not behave like an autocomplete tool
 Behave like a junior/mid engineer under supervision
+
+You are working in Windows PowerShell.
+
+File writing rules:
+- Never use apply_patch
+- Always create directories before writing files
+- Use:
+  New-Item -ItemType Directory -Force -Path "..."
+- Then:
+  Set-Content -Path "..." -Value @' ... '@
+
+Do not attempt to write files into non-existing paths.
