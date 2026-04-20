@@ -50,7 +50,8 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = ("id", "customer", "status", "total", "items")
 
 class PaymentSerializer(serializers.ModelSerializer):
-    order = serializers.StringRelatedField()
+    # Use a writable primary key field for order association
+    order = serializers.PrimaryKeyRelatedField(queryset=core.models.Order.objects.all())
 
     class Meta:
         model = core.models.Payment
