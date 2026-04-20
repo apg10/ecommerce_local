@@ -1,0 +1,21 @@
+# Byte-order mark (BOM) files
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# VS Code settings
+.vscode/
+
+# Python virtual environment
+venv/
+ENV/
+env/
+
+# Django files
+db.sqlite3
+*.pyc
+__pycache__/
+
+# Docker files
+*.log

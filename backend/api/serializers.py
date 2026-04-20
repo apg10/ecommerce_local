@@ -1,22 +1,61 @@
-﻿# serializers.py
-from rest_framework import serializers
-from core.models import Product, Category, Brand
+﻿from rest_framework import serializers
+from core.models import Brand, Category, Product
 
 class BrandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Brand
-        fields = ("id", "name", "slug", "description", "is_active")
+        fields = ("id", "name")
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ("id", "name", "slug", "description", "is_active")
+        fields = ("id", "name")
 
 class ProductSerializer(serializers.ModelSerializer):
     brand = BrandSerializer(read_only=True)
-    categories = CategorySerializer(many=True, read_only=True)
+    category = CategorySerializer(read_only=True)
 
     class Meta:
         model = Product
-        fields = ("id", "name", "slug", "description", "price", "brand", "categories", "is_active")
+        fields = ("id", "name", "price", "brand", "category")
 
+
+class CartItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(read_only=True)
+
+    class Meta:
+        model = core.models.CartItem
+        fields = ("id", "product", "quantity")
+
+
+class CartSerializer(serializers.ModelSerializer):
+    items = CartItemSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = core.models.Cart
+        fields = ("id", "customer", "session_id", "items")
+
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(read_only=True)
+
+    class Meta:
+        model = core.models.OrderItem
+        fields = ("id", "product", "quantity", "price_at_purchase")
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    items = OrderItemSerializer(many=True, read_only=True)
+    customer = serializers.StringRelatedField()
+
+    class Meta:
+        model = core.models.Order
+        fields = ("id", "customer", "status", "total", "items")
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+    order = serializers.StringRelatedField()
+
+    class Meta:
+        model = core.models.Payment
+        fields = ("id", "order", "provider", "provider_id", "amount", "status")
