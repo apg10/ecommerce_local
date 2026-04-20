@@ -37,6 +37,15 @@ class OrderCreateView(generics.CreateAPIView):
 
 class PaymentCreateView(generics.CreateAPIView):
     serializer_class = serializers.PaymentSerializer
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        payment = serializer.save()
+        if payment.status.lower() == "paid":
+            order = payment.order
+            order.status = "paid"
+            order.save()
+        return Response(serializer.data, status=201)
 
 # Cart endpoint
 class CartView(generics.GenericAPIView):
