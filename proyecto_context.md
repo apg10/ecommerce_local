@@ -681,3 +681,95 @@ Hasta que se definan, Codex debe asumir la opción más simple compatible con el
 - Before writing nested files, create parent directories with `mkdir -p`
 - Prefer `python3` + `Path(...).write_text(...)` for multiline file creation
 - Do not use bash heredocs unless strictly necessary
+
+# Apply_patch
+ Quick example
+{
+"cmd": [
+"apply_patch",
+"*** Begin Patch\n*** Update File: src/main.rs\n@@\n- transformation: String,\n+ transformation: TransformMode,\n*** End Patch"
+]
+}
+
+This will replace the transformation: String line with transformation: TransformMode.
+
+That’s all you need to know! Feel free to give me a patch and I’ll apply it.
+
+› use apply_patch tool to apply the following patch:
+*** Begin Patch
+*** Update File: src/main.rs
+@@
+- transformation: String,
++ transformation: TransformMode,
+*** End Patch
+
+26. Codex Execution Rules (CRITICAL)
+
+The purpose of these rules is to ensure stable, incremental and high-quality development.
+
+Scope control
+Work on ONE module at a time.
+Do NOT implement multiple domains in the same iteration.
+Do NOT jump ahead in the roadmap.
+
+Allowed scopes:
+
+catalog
+checkout
+payments
+orders
+inventory
+admin
+frontend UI
+Implementation strategy
+
+When implementing features:
+
+Understand existing code first
+Identify minimal required changes
+Implement incrementally
+Validate before continuing
+
+Do NOT:
+
+rewrite large parts of the system unnecessarily
+introduce new abstractions without need
+mix unrelated changes
+File editing rules
+Use apply_patch ONLY for small edits
+If apply_patch fails once → switch strategy immediately
+For full file creation or large changes → use python3 + Path.write_text()
+Avoid shell heredoc for multiline content
+Always ensure directories exist before writing files
+Git workflow
+Never commit directly to main
+Always use feature branches
+Before commit:
+show git status
+show git diff --stat
+Ask for confirmation before push
+Backend discipline
+Backend is the source of truth
+Validate stock in backend
+Never trust frontend for payment status
+Keep payment logic separate from order logic
+Frontend discipline
+No business logic in frontend
+Keep UI simple and fast
+Optimize for mobile-first experience
+Error handling
+
+If something fails:
+
+Do not retry blindly
+Diagnose the cause
+Change strategy
+Continue execution
+Performance awareness
+Use select_related / prefetch_related when needed
+Avoid unnecessary queries
+Keep API responses efficient
+Final rule
+Prioritize stability over speed
+Prioritize clarity over complexity
+Think like a production engineer, not a code generator
