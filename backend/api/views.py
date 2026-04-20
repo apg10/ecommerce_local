@@ -1,8 +1,10 @@
+﻿# views.py – updated with stock check
 from rest_framework import generics, permissions
 from core import models
 from core.models import Product, Category, Brand
 from . import serializers
 from rest_framework.response import Response
+from .utils import has_sufficient_stock
 
 class BrandList(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
@@ -82,6 +84,8 @@ class CartView(generics.GenericAPIView):
         else:
             cart, _ = models.Cart.objects.get_or_create(session_id=session_id)
             customer = None
+        if not has_sufficient_stock(product, quantity):
+            return Response({"detail": "Insufficient stock"}, status=400)
         cart_item, created = models.CartItem.objects.get_or_create(
             product=product,
             customer=customer,
