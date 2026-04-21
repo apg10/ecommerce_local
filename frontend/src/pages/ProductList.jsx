@@ -20,15 +20,20 @@ export default function ProductList() {
   return (
     <div className="container">
       <h2>Products</h2>
-      <div style={{ display: 'grid', gap: '1rem', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))' }}>
+      <div className="product-grid">
         {products.map((p) => (
-          <div key={p.id} style={{ border: '1px solid #ddd', borderRadius: '4px', padding: '1rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-            <Link to={"/product/" + p.id} style={{ textDecoration: 'none', color: 'inherit', flexGrow: 1 }}>
+          <div key={p.id} className="product-card">
+            <Link to={"/product/" + p.id} className="card-link">
+              {p.image_url && (
+                <img src={p.image_url} alt={p.name} className="product-image" />
+              )}
               <h3>{p.name}</h3>
               <p>{p.description}</p>
-              <p>Price: {p.price}</p>
+              <p className="price">Price: {p.price}</p>
             </Link>
-            <button onClick={() => handleAdd(p)} style={{ marginTop: '0.5rem' }}>Add to cart</button>
+            <button onClick={() => handleAdd(p)} className="add-btn">
+              Add to cart
+            </button>
           </div>
         ))}
       </div>
