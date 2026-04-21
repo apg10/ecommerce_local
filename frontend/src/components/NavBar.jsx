@@ -7,10 +7,11 @@ function NavBar() {
   const total = items.reduce((sum, i) => sum + i.quantity, 0);
 
   return (
-    <nav style={{ padding: '1rem', background: '#f8f8f8', display: 'flex', gap: '1rem' }}>
-      <Link to="/" style={{ marginRight: '1rem' }}>Home</Link>
-      <Link to="/products" style={{ marginRight: '1rem' }}>Products</Link>
+    <nav style={{ padding: "1rem", background: "#f8f8f8", display: "flex", gap: "1rem" }}>
+      <Link to="/" style={{ marginRight: "1rem" }}>Home</Link>
+      <Link to="/products" style={{ marginRight: "1rem" }}>Products</Link>
       <Link to="/cart">Cart ({total})</Link>
+      <Link to="/checkout" style={{ marginLeft: "auto" }}>Checkout</Link>
     </nav>
   );
 }
