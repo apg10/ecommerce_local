@@ -7,6 +7,7 @@ body {
   color: #333;
 }
 
+/* Navigation bar */
 nav {
   background: #222;
   color: #fff;
@@ -14,6 +15,7 @@ nav {
   display: flex;
   align-items: center;
   gap: 1rem;
+  flex-wrap: wrap;
 }
 
 nav a {
@@ -23,6 +25,20 @@ nav a {
 
 nav a:hover {
   text-decoration: underline;
+}
+
+/* Layout grid for main content */
+main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  main {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 ul {
@@ -47,7 +63,8 @@ button:hover {
   background: #0056b3;
 }
 
-/* Simple container for page content */
-main {
-  padding: 1rem;
+/* Utility */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
 }
