@@ -97,3 +97,4 @@ class CartView(generics.GenericAPIView):
         cart.items.add(cart_item)
         serializer = self.serializer_class(cart)
         return Response(serializer.data, status=200)
+\nclass ProductDetail(generics.RetrieveAPIView):\n    permission_classes = [permissions.AllowAny]\n    queryset = Product.objects.filter(is_active=True)\n    serializer_class = serializers.ProductSerializer\n
