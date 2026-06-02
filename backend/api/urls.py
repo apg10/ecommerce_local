@@ -1,4 +1,4 @@
-﻿from django.urls import path
+from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from . import views
 
@@ -14,4 +14,9 @@ urlpatterns = [
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
-\n    path('products/<int:pk>/', views.ProductDetail.as_view(), name='product-detail'),
+
+# Add product detail endpoint
+urlpatterns.append(
+    path('products/<int:pk>/', views.ProductDetail.as_view(), name='product-detail')
+)
+
